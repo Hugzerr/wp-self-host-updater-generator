@@ -34,6 +34,11 @@ runs:
         draft: false
         prerelease: false
         token: ${{ inputs.github-token }}
+
+    - name: Remove release ZIP
+      run: |
+        rm ./${{ env.FILENAME }}
+      shell: bash
         
     - name: Generate JSON
       run: |
