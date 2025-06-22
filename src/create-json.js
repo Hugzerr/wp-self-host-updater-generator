@@ -37,9 +37,12 @@ const parseChangelog = (content) => {
 const buildDownloadUrl = () => {
   const username = process.env.USERNAME;
   const repo = process.env.REPO;
-  const tag = process.env.TAG;
-  const fileName = process.env.FILENAME;
-  return `https://github.com/${username}/${repo}/releases/download/${tag}/${fileName}`;
+  // const tag = process.env.TAG;
+  // const fileName = process.env.FILENAME;
+  
+  // First parameter passed (after node and script name)
+  const id = process.argv[2]
+  return `https://api.github.com/repos/${username}/${repo}/releases/assets/${id}`;
 };
 
 const extractPluginName = (content) => {
