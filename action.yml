@@ -30,10 +30,26 @@ runs:
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
+    
+    - name: Generate release ZIP
+      run: |
+        git archive --format=zip --prefix=${{ env.REPO }}/ --output=${{ env.FILENAME }} HEAD
+      shell: bash
+    
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      id: upload_release
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./${{ env.FILENAME }}
+        asset_name: ${{ env.FILENAME }}
+        asset_content_type: application/zip
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
         
     - name: Generate JSON
       run: |
-        node ${{ github.action_path }}/src/create-json.js ${{ steps.create_release.outputs.id }}
+        node ${{ github.action_path }}/src/create-json.js ${{ steps.upload_release.outputs.id }}
       shell: bash
 
     - name: Commit JSON to Main
@@ -44,18 +60,3 @@ runs:
         git commit -m "Update JSON for version $TAG"
         git push
       shell: bash
-    
-    - name: Generate release ZIP
-      run: |
-        git archive --format=zip --prefix=${{ env.REPO }}/ --output=${{ env.FILENAME }} HEAD
-      shell: bash
-    
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./${{ env.FILENAME }}
-        asset_name: ${{ env.FILENAME }}
-        asset_content_type: application/zip
-      env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
