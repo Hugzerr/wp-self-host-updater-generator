@@ -38,7 +38,7 @@ runs:
         
     - name: Generate JSON
       run: |
-        node ${{ github.action_path }}/src/create-json.js ${{ fromJSON(steps.<step-id>.outputs.assets)[0].id }}
+        node ${{ github.action_path }}/src/create-json.js ${{ fromJSON(steps.release.outputs.assets)[0].id }}
       shell: bash
 
     - name: Commit JSON to Main
