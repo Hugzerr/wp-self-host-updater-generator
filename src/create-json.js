@@ -7,6 +7,8 @@ const distFolder = path.join(workspace, 'wp-dist');
 fs.mkdirSync(distFolder, { recursive: true });
 const jsonOutputPath = path.join(distFolder, 'data.json');
 
+const repoName = process.env.REPO;
+
 const extractSection = (content, section) => {
   const regex = new RegExp(`== ${section} ==([\\s\\S]*?)(?=={2,}|$)`, 'i');
   const match = content.match(regex);
@@ -36,13 +38,12 @@ const parseChangelog = (content) => {
 
 const buildDownloadUrl = () => {
   const username = process.env.USERNAME;
-  const repo = process.env.REPO;
   // const tag = process.env.TAG;
   // const fileName = process.env.FILENAME;
   
   // First parameter passed (after node and script name)
   const id = process.argv[2]
-  return `https://api.github.com/repos/${username}/${repo}/releases/assets/${id}`;
+  return `https://api.github.com/repos/${username}/${repoName}/releases/assets/${id}`;
 };
 
 const extractPluginName = (content) => {
@@ -53,8 +54,8 @@ const extractPluginName = (content) => {
 
 const parseReadme = (content) => {
   return {
-    name: extractPluginName(content) || '',
-    slug: extractKeyValue(content, 'Stable tag') || '',
+    name: repoName || '',
+    slug: extractPluginName(content) || '',
     author: extractKeyValue(content, 'Contributors'),
     author_profile: extractKeyValue(content, 'Donate link'),
     version: extractKeyValue(content, 'Stable tag'),
