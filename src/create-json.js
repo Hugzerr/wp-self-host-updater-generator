@@ -68,6 +68,7 @@ const parseReadme = (content) => {
       description: extractSection(content, 'Description'),
       installation: extractSection(content, 'Installation'),
       changelog: parseChangelog(extractSection(content, 'Changelog')),
+      upgrade_notice: parseChangelog(extractSection(content, 'Upgrade Notice')),
     },
   };
 };
