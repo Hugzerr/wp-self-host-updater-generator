@@ -77,4 +77,4 @@ const readmeContent = fs.readFileSync(readmePath, 'utf-8');
 const jsonData = parseReadme(readmeContent);
 
 fs.writeFileSync(jsonOutputPath, JSON.stringify(jsonData, null, 2));
-console.log('Success: JSON created at', jsonOutputPath);
+console.log('🎉 JSON created at', jsonOutputPath);
