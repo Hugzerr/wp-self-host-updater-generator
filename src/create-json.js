@@ -54,8 +54,8 @@ const extractPluginName = (content) => {
 
 const parseReadme = (content) => {
   return {
-    name: repoName || '',
-    slug: extractPluginName(content) || '',
+    slug: repoName || '',
+    name: extractPluginName(content) || '',
     author: extractKeyValue(content, 'Contributors'),
     author_profile: extractKeyValue(content, 'Donate link'),
     version: extractKeyValue(content, 'Stable tag'),
